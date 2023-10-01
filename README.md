@@ -1,6 +1,6 @@
 # dashboard
 
-A new Flutter project.
+A dribbble design clone using FLUTTER.
 
 ## Getting Started
 
