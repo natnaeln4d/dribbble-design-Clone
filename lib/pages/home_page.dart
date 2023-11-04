@@ -15,21 +15,21 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[800],
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home),label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.message),label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person),label: ''),
+      backgroundColor: Colors.grey[700],
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home),label: ''),
+      //     BottomNavigationBarItem(icon: Icon(Icons.message),label: ''),
+      //     BottomNavigationBarItem(icon: Icon(Icons.person),label: ''),
 
-        ]),
+      //   ]),
       body:SafeArea(
         child: Column(
           
           children: [
             
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                padding: const EdgeInsets.symmetric(horizontal: 25.0,vertical: 10),
                 child: Column(
                   
                   children: [
