@@ -1,12 +1,14 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 // import 'dart:html';
 
 import 'package:dashboard/componets/my_button.dart';
 import 'package:dashboard/componets/my_text_field.dart';
+import 'package:dashboard/pages/home_page.dart';
 import 'package:dashboard/service/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   final void Function()?onTap;
@@ -18,25 +20,45 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterPage> { 
+ final FirebaseAuth _auth = FirebaseAuth.instance;
  final emailController=TextEditingController();
   final passwordController=TextEditingController();
   final confirmPasswordController=TextEditingController();
+   String errorMessage = "";
 
-  void signUp() async{
-try{
+ Future<void> _signUp() async {
+    try {
+       // Check if password and confirmPassword match
+      if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
+        // Passwords do not match, set error message
+        setState(() {
+          errorMessage = "Passwords do not match";
+        });
+        return;
+      }
+      await _auth.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
 
-  final authService=Provider.of<AuthService>(context,listen: false);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
 
-  // await authService.s
-
-} catch(e){
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-
-}
-
-
+         setState(() {
+        errorMessage = "";
+      });
+      // Navigate to the next screen or perform any other actions upon successful sign-up
+    } catch (e) {
+      print("Error during sign up: $e");
+      // Handle sign-up errors here
+    }
   }
+
+
+  
 
 
 
@@ -88,8 +110,15 @@ try{
                                 obscureText:true
                                 ),
                                 const SizedBox(height: 25,),
-                                MyButton(onTap: signUp, text: 'Sign Up'),
-
+                                MyButton(onTap: _signUp, text: 'Sign Up'),
+                                if (errorMessage.isNotEmpty)
+                                    Text(
+                                      errorMessage,
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 14.0,
+                                      ),
+                                    ),
                                 const SizedBox(height: 50,),
 
                                 Row(

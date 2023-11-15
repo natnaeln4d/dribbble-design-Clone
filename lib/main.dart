@@ -19,10 +19,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(
-    ChangeNotifierProvider(
-      create: (context)=>AuthService(),
-      child: MyApp(),
-      )
+   MyApp()
   );
 } 
 
@@ -30,7 +27,11 @@ class MyApp extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context)=>AuthService())
+      ],
+     child: MaterialApp(
          debugShowCheckedModeBanner: false,
          
     
@@ -41,8 +42,9 @@ class MyApp extends StatelessWidget {
         canvasColor: secondaryColor,
       ),
     
-      home: HiddenDrawer(),
-    );
+      home: LoginOrRegister(),
+    ), 
+      );
     
   }
 }
