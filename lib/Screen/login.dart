@@ -41,15 +41,17 @@ class _LoginPageState extends State<LoginPage> {
     }
 
   } 
-  @override
-  Widget build(BuildContext context) {
+
+   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[700],
       body: SafeArea(
-        child:Center(
+          child: SafeArea(
+              child: SingleChildScrollView(
+             child:Center(
           child: Padding(
             
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -102,7 +104,13 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ),
-        ) ),
+        ) ,
+            ),
+          )
+       ),
     );
   }
+  
+  
+  
 }

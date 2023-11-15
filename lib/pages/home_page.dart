@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Hi Natty!',
+                      Text('Hi Nati!',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 24,
@@ -81,10 +81,12 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.white,
                     ),
                     SizedBox(width: 5,),
+                    
                     Text('Search...',
                     style: TextStyle(
                       color: Colors.white
-                    ),)
+                    ),),
+                     
               
                   ]),
                           ),
