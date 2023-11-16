@@ -4,6 +4,7 @@
 
 import 'package:dashboard/componets/my_button.dart';
 import 'package:dashboard/componets/my_text_field.dart';
+import 'package:dashboard/hidden_drawer.dart';
 import 'package:dashboard/pages/home_page.dart';
 import 'package:dashboard/service/auth/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
  Future<void> _signUp() async {
     try {
+         setState(() {
+          errorMessage = "";
+        });
        // Check if password and confirmPassword match
       if (passwordController.text.trim() != confirmPasswordController.text.trim()) {
         // Passwords do not match, set error message
@@ -37,14 +41,12 @@ class _RegisterPageState extends State<RegisterPage> {
         });
         return;
       }
-      await _auth.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
+      AuthService signup=new AuthService();
+      signup.signUpWithEmailAndPassword(emailController.text.trim(),passwordController.text.trim());
 
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
+          MaterialPageRoute(builder: (context) => const HiddenDrawer()),
         );
 
          setState(() {
@@ -52,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
       });
       // Navigate to the next screen or perform any other actions upon successful sign-up
     } catch (e) {
-      print("Error during sign up: $e");
+      print("Message : $e");
       // Handle sign-up errors here
     }
   }

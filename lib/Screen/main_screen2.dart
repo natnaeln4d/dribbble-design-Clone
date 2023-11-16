@@ -1,6 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dashboard/Screen/messages.dart';
+import 'package:dashboard/pages/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -46,7 +51,7 @@ List message=[
   "deg nachu"
   "Mimamo"
 ];
-
+FirebaseAuth _auth=FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -324,54 +329,7 @@ List message=[
                   topRight: Radius.circular(15)
                   )
               ),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 700,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      // scrollDirection: Axis.vertical,
-                      padding: EdgeInsets.all(12),
-                     itemCount: name.length,
-                     itemBuilder: (context, index) {
-                       return Container(
-                        margin: EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[600]
-                          ),
-                          child: ListTile(
-                          onTap: () {
-                            Navigator.push(context,
-                             MaterialPageRoute(builder:
-                             (context)=> Chat()));
-                          },
-                            leading: Image(
-                              image: AssetImage('assets/images/1.jpg')
-                              ),
-                           
-                            title: Text(
-                              message[index],
-                              style:TextStyle(
-                                color: Colors.blue
-                              )
-                              ),
-                              subtitle: Text(
-                               name[index],
-                                style:TextStyle(
-                                  color: Colors.blue[200]
-                                ),),
-                                trailing: Icon(
-                                  Icons.more_horiz,
-                                  size: 45,),
-                          ),
-                          
-                        );
-                     },
-                    ),
-                  ),
-                 
-                ]),
+              child: _buildUserList(),
             ),
           )
         ] 
@@ -379,4 +337,53 @@ List message=[
       ),
     );
   }
+
+  Widget _buildUserList() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('users').snapshots(),
+      builder: (context, snapshot) {
+        if(snapshot.hasError){
+          return const Text("error");
+        }
+
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return const Text("loading....",style: TextStyle(color:Colors.red),);
+        }
+        return ListView(
+          children: snapshot.data!.docs.map<Widget>((doc) =>_buildUserListItem(doc)).toList(),
+        );
+      }
+       
+      );
+    
+  }
+
+  Widget _buildUserListItem(DocumentSnapshot document){
+
+    Map<String,dynamic> data=document.data()! as Map<String, dynamic>;
+
+
+    if(_auth.currentUser!.email != data['email']){
+      return Container(
+        child: Text("No User"),
+      );
+    }
+    else{
+      return ListTile(
+        title: Text(data['email']),
+        onTap:(){
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => Chat(
+              receiverUserEmail: data['email'],
+              receiverUserID: data['uid'],
+          )
+          )
+          );
+        },
+      );
+    }
+
+
+  }
 }
+

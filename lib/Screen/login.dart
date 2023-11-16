@@ -1,7 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:dashboard/componets/my_button.dart';
 import 'package:dashboard/componets/my_text_field.dart';
+import 'package:dashboard/hidden_drawer.dart';
 import 'package:dashboard/service/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,8 @@ class _LoginPageState extends State<LoginPage> {
         emailController.text,
         passwordController.text
         ); 
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const HiddenDrawer(),));
 
 
 

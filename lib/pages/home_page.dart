@@ -1,7 +1,8 @@
- // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+ // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_final_fields, unused_field
 
  import 'package:dashboard/pages/exercises.dart';
 import 'package:dashboard/util/emoticon_face.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
+
+  FirebaseAuth _auth=FirebaseAuth.instance;
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[700],
